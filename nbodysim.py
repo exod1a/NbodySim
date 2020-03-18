@@ -6,6 +6,7 @@ import ctypes
 import numpy as np
 from init_cond import *
 drift = ctypes.CDLL('./A1.so')
+kickA = ctypes.CDLL('./A2.so')
 
 # Parameters for simulation			
 dt = 0.05																   # default time step (arbitrary)
@@ -25,4 +26,16 @@ r, v, m = initial_Conditions(r, v, m, fileName)
 drift.A1(r.ctypes.data_as(ctypes.POINTER(ctypes.c_double)), v.ctypes.data_as(ctypes.POINTER(ctypes.c_double)), \
 		 ctypes.c_double(dt), ctypes.c_uint(numParticles))
 
+# parameters to put into A2 loop to avoid re-allocating every time
+r_eff = np.array([r[0],[0,0,0]], dtype=np.double)					       # array to hold posn of part_0 and part_i 
+dirvec = np.array([0,0,0], dtype=np.double)								   # array to find direction vector along part_i to part_0
+acc = np.array([0 for i in np.arange(numParticles)], dtype=np.double)	   # array to hold acceleration on part_0 due to part_i
+
+kickA.A2(r.ctypes.data_as(ctypes.POINTER(ctypes.c_double)), v.ctypes.data_as(ctypes.POINTER(ctypes.c_double)), \
+         m.ctypes.data_as(ctypes.POINTER(ctypes.c_double)), ctypes.c_double(dt), ctypes.c_uint(numParticles),  \
+		 r_eff.ctypes.data_as(ctypes.POINTER(ctypes.c_double)), dirvec.ctypes.data_as(ctypes.POINTER(ctypes.c_double)), \
+		 acc.ctypes.data_as(ctypes.POINTER(ctypes.c_double)))
+
+print(r)
+print(v)
 print(r)
