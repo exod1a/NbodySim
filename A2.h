@@ -6,10 +6,6 @@
 #ifndef A2
 #define A2
 
-/// @brief Compute the norm squared of a vector.
-/// @param  r  A 1D array of size 3
-double normSq(double r[]);
-
 /// @brief Computes the A2 operator part of the Hamiltonian
 /// @param      r         A 2D array: 1st dimension is the number of particles, 2nd is their positions in 3D space.
 /// @param      v         A 2D array: 1st dimension is the number of particles, 2nd is their velocities in 3D space.

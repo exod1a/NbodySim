@@ -3,15 +3,6 @@
 #include <stdlib.h>
 #include <math.h>
 
-// Euclidean norm squared
-double normSq(double r[])
-{
-	double eucNormSq;	
-	eucNormSq = r[0]*r[0] + r[1]*r[1] + r[2]*r[2];
-
-	return eucNormSq;
-}
-
 // Compute the A2 step
 void A2(double r[][3], double v[][3], double m[], double dt, int numParticles, double r_eff[2][3], double dirvec[], double acc[])
 {
@@ -24,7 +15,7 @@ void A2(double r[][3], double v[][3], double m[], double dt, int numParticles, d
 		}		
 		for (int j = 0; j < 3; j++)
 		{
-			v[i][j] += m[0] / (pow(normSq(dirvec), 3./2.)) * dt * dirvec[j];
+			v[i][j] += m[0] / (pow(pow(dirvec[0],2) + pow(dirvec[1], 2) + pow(dirvec[2],2), 3./2.)) * dt * dirvec[j];
 
 			// -1 to accound for direction along 0 to 1 instead of 1 to 0
 			acc[j] -= (v[i][j] / m[0]) * m[i];				
