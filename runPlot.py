@@ -16,6 +16,7 @@ kickB = ctypes.CDLL('./B.so')
 ### @brief Module computes the method and plots the output.
 ### @param      r         A 2D array: 1st dimension is the number of particles, 2nd is their positions in 3D space.
 ### @param      v         A 2D array: 1st dimension is the number of particles, 2nd is their velocities in 3D space.
+### @param      m         
 ### @param    numSteps    Integer > 0... The number of times the loop iterates. Sets how long the simulation runs.
 ### @param  numParticles  The number of particles ie. the size of the first index of r and v.
 ### @param      dt        The time step over which you wish to update the positions.
@@ -39,31 +40,33 @@ def runPlot(r, v, m, numSteps, numParticles, dt, n):
 			Ry[numParticles*i+j] = r[j][1]
 			Rz[numParticles*i+j] = r[j][2]
 
-		drift.A1(r.ctypes.data_as(ctypes.POINTER(ctypes.c_double)), v.ctypes.data_as(ctypes.POINTER(ctypes.c_double)), \
-                 ctypes.c_double(dt/4.), ctypes.c_uint(numParticles))
+		for k in np.arange(n):
+			drift.A1(r.ctypes.data_as(ctypes.POINTER(ctypes.c_double)), v.ctypes.data_as(ctypes.POINTER(ctypes.c_double)), \
+                 	 ctypes.c_double(dt/(n*4.)), ctypes.c_uint(numParticles))
 
-		kickA.A2(r.ctypes.data_as(ctypes.POINTER(ctypes.c_double)), v.ctypes.data_as(ctypes.POINTER(ctypes.c_double)), \
-                 m.ctypes.data_as(ctypes.POINTER(ctypes.c_double)), ctypes.c_double(dt/2.), ctypes.c_uint(numParticles),  \
-                 dirvec.ctypes.data_as(ctypes.POINTER(ctypes.c_double)))
+			kickA.A2(r.ctypes.data_as(ctypes.POINTER(ctypes.c_double)), v.ctypes.data_as(ctypes.POINTER(ctypes.c_double)), \
+                	 m.ctypes.data_as(ctypes.POINTER(ctypes.c_double)), ctypes.c_double(dt/(n*2.)), ctypes.c_uint(numParticles),  \
+                 	 dirvec.ctypes.data_as(ctypes.POINTER(ctypes.c_double)))
 
-		drift.A1(r.ctypes.data_as(ctypes.POINTER(ctypes.c_double)), v.ctypes.data_as(ctypes.POINTER(ctypes.c_double)), \
-                 ctypes.c_double(dt/4.), ctypes.c_uint(numParticles))
+			drift.A1(r.ctypes.data_as(ctypes.POINTER(ctypes.c_double)), v.ctypes.data_as(ctypes.POINTER(ctypes.c_double)), \
+                	 ctypes.c_double(dt/(n*4.)), ctypes.c_uint(numParticles))
 
 		# dirvec will now hold the direction vector along particle j to particle i
 
 		kickB.B(r.ctypes.data_as(ctypes.POINTER(ctypes.c_double)), v.ctypes.data_as(ctypes.POINTER(ctypes.c_double)), \
                 m.ctypes.data_as(ctypes.POINTER(ctypes.c_double)), ctypes.c_double(dt), ctypes.c_uint(numParticles),  \
                 dirvec.ctypes.data_as(ctypes.POINTER(ctypes.c_double)))
+	
+		for k in np.arange(n):	
+			drift.A1(r.ctypes.data_as(ctypes.POINTER(ctypes.c_double)), v.ctypes.data_as(ctypes.POINTER(ctypes.c_double)), \
+                	 ctypes.c_double(dt/(n*4.)), ctypes.c_uint(numParticles))
 
-		drift.A1(r.ctypes.data_as(ctypes.POINTER(ctypes.c_double)), v.ctypes.data_as(ctypes.POINTER(ctypes.c_double)), \
-                 ctypes.c_double(dt/4.), ctypes.c_uint(numParticles))
+			kickA.A2(r.ctypes.data_as(ctypes.POINTER(ctypes.c_double)), v.ctypes.data_as(ctypes.POINTER(ctypes.c_double)), \
+                	 m.ctypes.data_as(ctypes.POINTER(ctypes.c_double)), ctypes.c_double(dt/(n*2.)), ctypes.c_uint(numParticles),  \
+                	 dirvec.ctypes.data_as(ctypes.POINTER(ctypes.c_double)))
 
-		kickA.A2(r.ctypes.data_as(ctypes.POINTER(ctypes.c_double)), v.ctypes.data_as(ctypes.POINTER(ctypes.c_double)), \
-                 m.ctypes.data_as(ctypes.POINTER(ctypes.c_double)), ctypes.c_double(dt/2.), ctypes.c_uint(numParticles),  \
-                 dirvec.ctypes.data_as(ctypes.POINTER(ctypes.c_double)))
-
-		drift.A1(r.ctypes.data_as(ctypes.POINTER(ctypes.c_double)), v.ctypes.data_as(ctypes.POINTER(ctypes.c_double)), \
-                 ctypes.c_double(dt/4.), ctypes.c_uint(numParticles))
+			drift.A1(r.ctypes.data_as(ctypes.POINTER(ctypes.c_double)), v.ctypes.data_as(ctypes.POINTER(ctypes.c_double)), \
+                	 ctypes.c_double(dt/(n*4.)), ctypes.c_uint(numParticles))
 
 	fig = plt.figure(1)
 	ax = fig.add_subplot(111, projection='3d')

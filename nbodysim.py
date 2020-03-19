@@ -12,11 +12,14 @@ import timeit
 
 from init_cond import *
 from runPlot import *
+from runError import *
 
-# Parameters for simulation			
+# Parameters for simulation
+flag = "-e"																   # decide what part of program to execute... -p = plot, -e = error			
 dt = 0.05																   # default time step (arbitrary)
 n = 1																	   # Lowers the time step for each call to A1 and A2. Also more calls
 numSteps = 1000															   # default number of time steps to take (arbitrary)
+time = 1																   # total time for the simulation
 fileName = "particleInfo1.txt"											   # file to read initial conditions from
 File = open(fileName, "r")
 lines = File.readlines()
@@ -30,5 +33,9 @@ m = np.array([0 for i in np.arange(numParticles)], dtype=np.double)        # arr
 # set ICs
 r, v, m = initial_Conditions(r, v, m, fileName)
 
-# make plot output
-runPlot(r, v ,m, numSteps, numParticles, dt, n)
+if flag == "-p":
+	# make plot output
+	runPlot(r, v ,m, numSteps, numParticles, dt, n)
+elif flag == "-e":
+	# make error and run time plot
+	runError(r, v, m, numParticles, time, n)
