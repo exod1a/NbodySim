@@ -1,5 +1,4 @@
 // A1.c
-
 #include <stdio.h>
 
 void A1(double r[][3], double v[][3], double dt, int numParticles)
