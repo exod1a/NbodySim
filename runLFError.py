@@ -1,7 +1,7 @@
 ### @file   runLFError.py
 ### @author Chandler Ross
 ### @date   March 19, 2020
-### @brief  Plots the error for the method as well as the run time.
+### @brief  Returns arrays to plot the error for the method as well as the run time.
 
 import ctypes
 import math as M

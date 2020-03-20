@@ -1,4 +1,3 @@
-
 ### @file   nbodysim.py
 ### @author Chandler Ross
 ### @date   March 17, 2020
@@ -45,9 +44,29 @@ if flag == "-p":
 	r, v, m = initial_Conditions(r, v, m, fileName)
 	# make plot output
 	runPlot(r, v ,m, numSteps, numParticles, dt, n)
+
+elif flag=="-pLF":
+    r, v, m = initial_Conditions(r, v, m, fileName)
+    runLFPlot(r, v, m, numSteps, numParticles, dt, n)
+
 elif flag == "-e":
 	# make error and run time plot
-	runError(r, v, m, numParticles, n)
+	runTime, rel_err = runError(r, v, m, numParticles, n)
+	
+	plt.figure(2)
+	plt.loglog(timeStep_iter,rel_err, label='HR')
+	plt.legend(loc='best')
+	plt.xlabel('Time Step')
+	plt.ylabel('Relative Error')
+
+	plt.figure(3)
+	plt.loglog(runTime,rel_err, label='HR')
+	plt.legend(loc='best')
+	plt.xlabel('Run Time')
+	plt.ylabel('Relative Error')
+
+	plt.show()
+
 elif flag == "-LFc":
 	# compare Hanno's method to LF
 	runTime, rel_err = runError(r, v, m, numParticles, n)
@@ -55,21 +74,18 @@ elif flag == "-LFc":
 	runTimeLF, rel_errLF = runLFError(r, v, m, numParticles, n)
 
 	plt.figure(2)
-	plt.loglog(timeStep_iter,rel_err,label='HR')
-	plt.loglog(timeStep_iter,rel_errLF,label='LF')
+	plt.loglog(timeStep_iter,rel_err, label='HR')
+	plt.loglog(timeStep_iter,rel_errLF, label='LF')
 	plt.legend(loc='best')
 	plt.xlabel('Time Step')
 	plt.ylabel('Relative Error')
 
 	plt.figure(3)
-	plt.loglog(runTime,rel_err,label='HR')
-	plt.loglog(runTime,rel_errLF,label='LF')
+	plt.loglog(runTime,rel_err, label='HR')
+	plt.loglog(runTime,rel_errLF, label='LF')
 	plt.legend(loc='best')
 	plt.xlabel('Run Time')
 	plt.ylabel('Relative Error')
 
 	plt.show()
 
-elif flag=="-pLF":
-	r, v, m = initial_Conditions(r, v, m, fileName)
-	runLFPlot(r, v, m, numSteps, numParticles, dt, n)

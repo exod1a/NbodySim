@@ -1,4 +1,7 @@
-# runLFPlot.py
+### @file   runLFPlot.py
+### @author Chandler Ross
+### @date   March 19, 2020
+### @brief  Module computes the method and plots the output.
 import ctypes
 import numpy as np
 import matplotlib.pyplot as plt
@@ -6,6 +9,14 @@ import matplotlib.pyplot as plt
 drift = ctypes.CDLL('./A1.so')
 LFkick = ctypes.CDLL('./LF_U.so')
 
+### @brief Module computes the method and plots the output.
+### @param      r         A 2D array: 1st dimension is the number of particles, 2nd is their positions in 3D space.
+### @param      v         A 2D array: 1st dimension is the number of particles, 2nd is their velocities in 3D space.
+### @param      m
+### @param    numSteps    Integer > 0... The number of times the loop iterates. Sets how long the simulation runs.
+### @param  numParticles  The number of particles ie. the size of the first index of r and v.
+### @param      dt        The time step over which you wish to update the positions.
+### @param      n         Integer > 0... Lower the timestep and how many times you call A1.
 def runLFPlot(r, v, m, numSteps, numParticles, dt, n):
 	# Store the updated values
 	# Format: Rx = [x01,x11,...,xN1,x02,x12,...,xN2,...]

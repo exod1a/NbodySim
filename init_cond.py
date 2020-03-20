@@ -10,17 +10,17 @@
 ### @param  fileName  The name of the file to read data from.  
 import numpy as np
 
-def initial_Conditions(r,v,M,fileName):
+def initial_Conditions(r, v, m, fileName):
     
     File = open(fileName,"r")
     lines = File.readlines()
     
     for i in np.arange(len(lines))[1:]:
         info = lines[i].split()
-        M[i-1] = float(info[0])
+        m[i-1] = float(info[0])
         r[i-1] = np.array([float(info[1]),float(info[2]),float(info[3])])
         v[i-1] = np.array([float(info[4]),float(info[5]),float(info[6])])
 
     File.close()
     
-    return r,v,M
+    return r, v, m

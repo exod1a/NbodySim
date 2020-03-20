@@ -1,7 +1,7 @@
 ### @file   runError.py
 ### @author Chandler Ross
 ### @date   March 19, 2020
-### @brief  Plots the error for the method as well as the run time.
+### @brief  Returns arrays to plot the error for the method as well as the run time.
 
 import ctypes
 import math as M
@@ -25,7 +25,7 @@ start = np.array([0 for i in np.arange(len(timeStep_iter))], dtype=np.double)		#
 stop = np.array([0 for i in np.arange(len(timeStep_iter))], dtype=np.double)		# for where we end the run time clock
 runTime = np.array([0 for i in np.arange(len(timeStep_iter))], dtype=np.double)		# the total run time
 
-### @brief Module computes the error and run time and plots the output.
+### @brief Module computes the error and run time and returns arrays to plot the output.
 ### @param      r         A 2D array: 1st dimension is the number of particles, 2nd is their positions in 3D space.
 ### @param      v         A 2D array: 1st dimension is the number of particles, 2nd is their velocities in 3D space.
 ### @param      m         A 1D array: contains the masses for particle 0, 1, ..., N-1.
