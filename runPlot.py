@@ -72,7 +72,7 @@ def runPlot(r, v, m, numSteps, numParticles, dt, n):
 	ax = fig.add_subplot(111, projection='3d')
 	for i in np.arange(numParticles):
 		ax.plot(Rx[i::numParticles],Ry[i::numParticles],Rz[i::numParticles])
-	plt.title("Real Space N Body Problem")
+	plt.title("Real Space N Body Problem: HR")
 	ax.set_xlabel('x')
 	ax.set_ylabel('y')
 	ax.set_zlabel('z')
