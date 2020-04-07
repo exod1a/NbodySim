@@ -18,7 +18,7 @@ nrg.energy.restype = ctypes.c_double  												# so that it returns a double
 # parameters
 time = 1																			# total time to run for each of the time steps
 dirvec = np.array([0,0,0], dtype=np.double)											# array to find direction vector along particle j to particle i
-timeStep_iter = np.linspace(0.00001,1,100)											# loop over time steps
+timeStep_iter = np.logspace(-5,0,100)											# loop over time steps
 numSteps = np.array([time/i for i in timeStep_iter], dtype=np.double)				# number of steps to reach the total time
 rel_err = np.array([0 for i in np.arange(len(timeStep_iter))], dtype=np.double)		# largest relative error
 start = np.array([0 for i in np.arange(len(timeStep_iter))], dtype=np.double)		# for where we start the run time clock

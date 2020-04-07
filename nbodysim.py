@@ -20,7 +20,7 @@ from runLFError import runLFError
 flag = "-LFc"														   				# decide what part of program to execute... -p = plot, -e = error			
 dt = 0.05																   			# default time step (arbitrary)
 n = 2																	   			# Lowers the time step for each call to A1 and A2. Also more calls
-numSteps = 1000															   			# default number of time steps to take (arbitrary)
+numSteps = 300															   			# default number of time steps to take (arbitrary)
 fileName = "particleInfo1.txt"											   			# file to read initial conditions from
 File = open(fileName, "r")
 lines = File.readlines()
@@ -31,7 +31,7 @@ r = np.array([nullVec for i in np.arange(numParticles)], dtype=np.double)  			# 
 v = np.array([nullVec for i in np.arange(numParticles)], dtype=np.double)  			# array to hold velocities of particles
 m = np.array([0 for i in np.arange(numParticles)], dtype=np.double)        			# array to hold masses of particles
 dirvec = np.array([0,0,0], dtype=np.double)								   			# array to find direction vector along particle j to particle i
-timeStep_iter = np.linspace(0.00001,1,100)                                          # loop over time steps
+timeStep_iter = np.logspace(-5,0,100)                                          # loop over time steps
 runTime = np.array([0 for i in np.arange(len(timeStep_iter))], dtype=np.double)     # the total run time
 rel_err = np.array([0 for i in np.arange(len(timeStep_iter))], dtype=np.double)     # largest relative error
 runTimeLF = np.array([0 for i in np.arange(len(timeStep_iter))], dtype=np.double)   # the total run time for LF
