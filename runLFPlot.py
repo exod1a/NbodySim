@@ -21,12 +21,12 @@ def runLFPlot(r, v, m, numSteps, numParticles, dt, n):
 	# Store the updated values
 	# Format: Rx = [x01,x11,...,xN1,x02,x12,...,xN2,...]
 	# First digit is the particle, second is the time step
-	Rx = np.zeros(numSteps*numParticles, dtype=np.double)
-	Ry = np.zeros(numSteps*numParticles, dtype=np.double)
-	Rz = np.zeros(numSteps*numParticles, dtype=np.double)
+	Rx = np.zeros(numSteps*numParticles)
+	Ry = np.zeros(numSteps*numParticles)
+	Rz = np.zeros(numSteps*numParticles)
 
 	# array to find direction vector along particle j to particle i
-	dirvec = np.array([0,0,0], dtype=np.double)
+	dirvec = np.zeros(3)
 
 	for i in np.arange(numSteps):
 		for j in np.arange(numParticles):

@@ -10,16 +10,16 @@ A1.so: A1.c A1.h
 	${CXX} ${FLAGS} -Wl,-install_name,A1.so -o A1.so -fPIC A1.c
 
 A2.so: A2.c A2.h
-	${CXX} ${FLAGS} -WL,-install_name,A2.so -o A2.so -fPIC A2.c
+	${CXX} ${FLAGS} -Wl,-install_name,A2.so -o A2.so -fPIC A2.c
 
 B.so: B.c B.h
-	${CXX} ${FLAGS} -WL,-install_name,B.so -o B.so -fPIC B.c
+	${CXX} ${FLAGS} -Wl,-install_name,B.so -o B.so -fPIC B.c
 
 energy.so: energy.c energy.h
-	${CXX} ${FLAGS} -WL,-install_name,energy.so -o energy.so -fPIC energy.c
+	${CXX} ${FLAGS} -Wl,-install_name,energy.so -o energy.so -fPIC energy.c
 
 LF_U.so: LF_U.c LF_U.h
-	${CXX} ${FLAGS} -WL,-install_name,LF_U.so -o LF_U.so -fPIC LF_U.c
+	${CXX} ${FLAGS} -Wl,-install_name,LF_U.so -o LF_U.so -fPIC LF_U.c
 
 # delete .so and .pyc files
 clean:

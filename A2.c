@@ -7,7 +7,7 @@
 void A2(double r[][3], double v[][3], double m[], double dt, int numParticles, double dirvec[])
 {
 	// array to hold acceleration on part_0 due to part_i
-    double* acc = (double*)calloc(numParticles, sizeof(double));
+    double* acc = (double*)calloc(3, sizeof(double));
 
 	for (int i = 1; i < numParticles; i++)
 	{

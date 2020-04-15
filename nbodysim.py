@@ -17,25 +17,24 @@ from runError import runError
 from runLFError import runLFError
 
 # Parameters for simulation
-flag = "-LFc"														   				# decide what part of program to execute... -p = plot, -e = error			
-dt = 0.05																   			# default time step (arbitrary)
-n = 2																	   			# Lowers the time step for each call to A1 and A2. Also more calls
-numSteps = 300															   			# default number of time steps to take (arbitrary)
-fileName = "particleInfo1.txt"											   			# file to read initial conditions from
+flag = "-e"								   				# decide what part of program to execute... -p = plot, -e = error			
+dt = 0.05									   			# default time step (arbitrary)
+n = 1													# Lowers the time step for each call to A1 and A2. Also more calls
+numSteps = 300											# default number of time steps to take (arbitrary)
+fileName = "particleInfo1.txt"			 	 			# file to read initial conditions from
 File = open(fileName, "r")
 lines = File.readlines()
-numParticles = len(lines) - 1 										       			# number of particles in simulation
+numParticles = len(lines) - 1 			       			# number of particles in simulation
 File.close()
-nullVec = np.array([0,0,0])
-r = np.array([nullVec for i in np.arange(numParticles)], dtype=np.double)  			# array to hold positions of particles
-v = np.array([nullVec for i in np.arange(numParticles)], dtype=np.double)  			# array to hold velocities of particles
-m = np.array([0 for i in np.arange(numParticles)], dtype=np.double)        			# array to hold masses of particles
-dirvec = np.array([0,0,0], dtype=np.double)								   			# array to find direction vector along particle j to particle i
-timeStep_iter = np.logspace(-5,0,100)                                          # loop over time steps
-runTime = np.array([0 for i in np.arange(len(timeStep_iter))], dtype=np.double)     # the total run time
-rel_err = np.array([0 for i in np.arange(len(timeStep_iter))], dtype=np.double)     # largest relative error
-runTimeLF = np.array([0 for i in np.arange(len(timeStep_iter))], dtype=np.double)   # the total run time for LF
-rel_errLF = np.array([0 for i in np.arange(len(timeStep_iter))], dtype=np.double)   # largest relative error for LF
+r = np.zeros((numParticles,3))				  			# array to hold positions of particles
+v = np.zeros((numParticles,3))  						# array to hold velocities of particles
+m = np.zeros(numParticles)	        					# array to hold masses of particles
+dirvec = np.zeros(3)						  			# array to find direction vector along particle j to particle i
+timeStep_iter = np.logspace(-4,0,100)                   # loop over time steps
+runTime = np.zeros(len(timeStep_iter))     				# the total run time
+rel_err = np.zeros(len(timeStep_iter))     				# largest relative error
+runTimeLF = np.zeros(len(timeStep_iter))   				# the total run time for LF
+rel_errLF = np.zeros(len(timeStep_iter))   				# largest relative error for LF
 
 # set ICs
 r, v, m = initial_Conditions(r, v, m, fileName)
@@ -88,4 +87,3 @@ elif flag == "-LFc":
 	plt.ylabel('Relative Error')
 
 	plt.show()
-
