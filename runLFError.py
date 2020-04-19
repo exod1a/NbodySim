@@ -9,21 +9,22 @@ import numpy as np
 import matplotlib.pyplot as plt
 import timeit
 
-from LFnew import LFnew
 drift = ctypes.CDLL('./A1.so')
 LFkick = ctypes.CDLL('./LF_U.so')
 nrg   = ctypes.CDLL('./energy.so')
 nrg.energy.restype = ctypes.c_double                         # so that it returns a double
+from init_cond import initial_Conditions
 
 # parameters
 time = 1                                                     # total time to run for each of the time steps
 dirvec = np.zeros(3)                                         # array to find direction vector along particle j $
-timeStep_iter = np.logspace(-5,0,100)                        # loop over time steps
+timeStep_iter = np.logspace(-4,0,100)                        # loop over time steps
 numSteps = np.array([time/i for i in timeStep_iter])         # number of steps to reach the total time
 rel_err = np.zeros(len(timeStep_iter))     					 # largest relative error
 start = np.zeros(len(timeStep_iter))        				 # for where we start the run time clock
 stop = np.zeros(len(timeStep_iter))       					 # for where we end the run time clock
 runTime = np.zeros(len(timeStep_iter))   				     # the total run time
+fileName = "particleInfo1.txt"	                             # file to read initial conditions from
 
 ### @brief Module computes the error and run time and returns arrays for plotting.
 ### @param      v         A 2D array: 1st dimension is the number of particles, 2nd is their velocities in 3D space.
@@ -41,6 +42,8 @@ def runLFError(r, v, m, numParticles, n):
 
 		# Holds relative error for each time step
 		rel_err_iter = np.zeros(int(M.ceil(numSteps[i])))
+
+		r, v, m = initial_Conditions(r, v, m, fileName)
 
 		start[i] = timeit.default_timer()
 

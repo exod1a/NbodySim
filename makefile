@@ -1,5 +1,8 @@
 # makefile
 
+# compile OpenCL files with gcc test.c -framework OpenCL test
+# run with ./test  Don't have to link .cl files
+
 # compiler and flags
 CXX = gcc
 FLAGS = -Wall -std=c99 -O3 -shared

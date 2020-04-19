@@ -14,6 +14,7 @@ kickA = ctypes.CDLL('./A2.so')
 kickB = ctypes.CDLL('./B.so')
 nrg   = ctypes.CDLL('./energy.so')
 nrg.energy.restype = ctypes.c_double  							# so that it returns a double
+from init_cond import initial_Conditions
 
 # parameters
 time = 1														# total time to run for each of the time steps
@@ -24,6 +25,7 @@ rel_err = np.zeros(len(timeStep_iter))							# largest relative error
 start = np.zeros(len(timeStep_iter))							# for where we start the run time clock
 stop = np.zeros(len(timeStep_iter))								# for where we end the run time clock
 runTime = np.zeros(len(timeStep_iter))							# the total run time
+fileName = "particleInfo1.txt"                          		# file to read initial conditions from
 
 ### @brief Module computes the error and run time and returns arrays to plot the output.
 ### @param      r         A 2D array: 1st dimension is the number of particles, 2nd is their positions in 3D space.
@@ -43,6 +45,8 @@ def runError(r, v, m, numParticles, n):
 		# Holds relative error for each time step
 		rel_err_iter = np.zeros(int(M.ceil(numSteps[i])))
                                 
+		r, v, m = initial_Conditions(r, v, m, fileName)
+
 		start[i] = timeit.default_timer()
 
 		for j in np.arange(int(M.ceil(numSteps[i]))):
