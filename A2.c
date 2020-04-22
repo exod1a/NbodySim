@@ -6,9 +6,6 @@
 // Compute the A2 step
 void A2(double r[][3], double v[][3], double m[], double dt, int numParticles, double dirvec[])
 {
-	// array to hold acceleration on part_0 due to part_i
-    double* acc = (double*)calloc(3, sizeof(double));
-
 	for (int i = 1; i < numParticles; i++)
 	{
 		for (int j = 0; j < 3; j++)
@@ -21,13 +18,7 @@ void A2(double r[][3], double v[][3], double m[], double dt, int numParticles, d
 			v[i][j] += m[0] / (pow(pow(dirvec[0],2) + pow(dirvec[1], 2) + pow(dirvec[2],2), 3./2.)) * dirvec[j] * dt;
 
 			// -1 to account for direction along 0 to 1 instead of 1 to 0
-			acc[j] -=  m[i] / (pow(pow(dirvec[0],2) + pow(dirvec[1], 2) + pow(dirvec[2],2), 3./2.)) * dirvec[j];				
+			v[0][j] -= m[i] / (pow(pow(dirvec[0],2) + pow(dirvec[1], 2) + pow(dirvec[2],2), 3./2.)) * dirvec[j] * dt;				
 		}
 	}
-	for (int i = 0; i < 3; i++)
-	{
-		v[0][i] += acc[i] * dt;
-	}
-
-	free(acc);
 }

@@ -17,10 +17,10 @@ from runError import runError
 from runLFError import runLFError
 
 # Parameters for simulation
-flag = "-p"								   				# decide what part of program to execute... -p = plot, -e = error			
+flag = "-LFc"								   				# decide what part of program to execute... -p = plot, -e = error			
 dt = 0.05									   			# default time step (arbitrary)
 n = 1													# Lowers the time step for each call to A1 and A2. Also more calls
-numSteps = 300											# default number of time steps to take (arbitrary)
+numSteps = 400											# default number of time steps to take (arbitrary)
 fileName = "particleInfo1.txt"			 	 			# file to read initial conditions from
 File = open(fileName, "r")
 lines = File.readlines()
@@ -87,10 +87,3 @@ elif flag == "-LFc":
 	plt.ylabel('Relative Error')
 
 	plt.show()
-
-kickA = ctypes.CDLL('./A2.so')
-kickA.A2(r.ctypes.data_as(ctypes.POINTER(ctypes.c_double)), v.ctypes.data_as(ctypes.POINTER(ctypes.c_double)), \
-                         m.ctypes.data_as(ctypes.POINTER(ctypes.c_double)), ctypes.c_double(dt/(n*2.)), ctypes.c_uint(numParticles),  \
-                         dirvec.ctypes.data_as(ctypes.POINTER(ctypes.c_double)))
-
-print(v)
