@@ -7,9 +7,6 @@ void A1(double r[][3], double v[][3], double dt, int numParticles)
 	for (int i = 0; i < numParticles; i++)
 	{
 		for (int j = 0; j < 3; j++)
-		{
 			r[i][j] += v[i][j] * dt;
-		}
 	}
 }
-

@@ -10,6 +10,8 @@ from matplotlib import animation
 import math as M
 import timeit
 
+np.set_printoptions(formatter={'float': lambda x: "{0:0.15f}".format(x)})
+
 from init_cond import initial_Conditions
 from runPlot import runPlot
 from runLFPlot import runLFPlot
@@ -17,11 +19,11 @@ from runError import runError
 from runLFError import runLFError
 
 # Parameters for simulation
-flag = "-LFc"								   				# decide what part of program to execute... -p = plot, -e = error			
+flag = "-"								   				# decide what part of program to execute... -p = plot, -e = error			
 dt = 0.05									   			# default time step (arbitrary)
 n = 1													# Lowers the time step for each call to A1 and A2. Also more calls
-numSteps = 400											# default number of time steps to take (arbitrary)
-fileName = "particleInfo1.txt"			 	 			# file to read initial conditions from
+numSteps = 500											# default number of time steps to take (arbitrary)
+fileName = "particleInfo2.txt"			 	 			# file to read initial conditions from
 File = open(fileName, "r")
 lines = File.readlines()
 numParticles = len(lines) - 1 			       			# number of particles in simulation
@@ -87,3 +89,70 @@ elif flag == "-LFc":
 	plt.ylabel('Relative Error')
 
 	plt.show()
+
+drift = ctypes.CDLL('./A1.so')
+kickA = ctypes.CDLL('./A2.so')
+kickB = ctypes.CDLL('./B.so')
+	
+for i in np.arange(numSteps):
+	for k in np.arange(n):
+		drift.A1(r.ctypes.data_as(ctypes.POINTER(ctypes.c_double)), v.ctypes.data_as(ctypes.POINTER(ctypes.c_double)), \
+				 ctypes.c_double(dt/(n*4.)), ctypes.c_uint(numParticles))
+
+		#print("After A1")
+		#print("r\n")
+		#print(r)
+
+		kickA.A2(r.ctypes.data_as(ctypes.POINTER(ctypes.c_double)), v.ctypes.data_as(ctypes.POINTER(ctypes.c_double)), \
+				 m.ctypes.data_as(ctypes.POINTER(ctypes.c_double)), ctypes.c_double(dt/(n*2.)), ctypes.c_uint(numParticles),  \
+				 dirvec.ctypes.data_as(ctypes.POINTER(ctypes.c_double)))
+
+		#print("After A2")
+		#print("v\n")
+		#print(v)
+
+		drift.A1(r.ctypes.data_as(ctypes.POINTER(ctypes.c_double)), v.ctypes.data_as(ctypes.POINTER(ctypes.c_double)), \
+				 ctypes.c_double(dt/(n*4.)), ctypes.c_uint(numParticles))
+
+		#print("After A1")
+		#print("r\n")
+		#print(r)
+
+		# dirvec will now hold the direction vector along particle j to particle i
+
+	kickB.B(r.ctypes.data_as(ctypes.POINTER(ctypes.c_double)), v.ctypes.data_as(ctypes.POINTER(ctypes.c_double)), \
+			m.ctypes.data_as(ctypes.POINTER(ctypes.c_double)), ctypes.c_double(dt), ctypes.c_uint(numParticles),  \
+			dirvec.ctypes.data_as(ctypes.POINTER(ctypes.c_double)))
+
+	#print("After B")
+	#print("v\n")
+	#print(v)
+
+	for k in np.arange(n):
+		drift.A1(r.ctypes.data_as(ctypes.POINTER(ctypes.c_double)), v.ctypes.data_as(ctypes.POINTER(ctypes.c_double)), \
+				 ctypes.c_double(dt/(n*4.)), ctypes.c_uint(numParticles))
+
+		#print("After A1")
+		#print("r\n")
+		#print(r)
+		kickA.A2(r.ctypes.data_as(ctypes.POINTER(ctypes.c_double)), v.ctypes.data_as(ctypes.POINTER(ctypes.c_double)), \
+				 m.ctypes.data_as(ctypes.POINTER(ctypes.c_double)), ctypes.c_double(dt/(n*2.)), ctypes.c_uint(numParticles),  \
+				 dirvec.ctypes.data_as(ctypes.POINTER(ctypes.c_double)))
+
+		#print("After A2")
+		#print("v\n")
+		#print(v)
+		drift.A1(r.ctypes.data_as(ctypes.POINTER(ctypes.c_double)), v.ctypes.data_as(ctypes.POINTER(ctypes.c_double)), \
+				 ctypes.c_double(dt/(n*4.)), ctypes.c_uint(numParticles))
+
+		#print("After A1")
+		#print("r\n")
+		#print(r)
+
+#print("After {} time step(s):".format(numSteps))
+#print("r")
+#print(r)
+#print("v")
+#print(v)
+
+#print(numParticles % 32)

@@ -1,7 +1,7 @@
 # makefile
 
-# compile OpenCL files with gcc test.c -framework OpenCL test
-# run with ./test  Don't have to link .cl files
+# compile OpenCL files with gcc FILENAME.c -framework OpenCL -o FILENAME
+# run with ./FILENAME  Don't have to link .cl files
 
 # compiler and flags
 CXX = gcc

@@ -9,9 +9,7 @@ void A2(double r[][3], double v[][3], double m[], double dt, int numParticles, d
 	for (int i = 1; i < numParticles; i++)
 	{
 		for (int j = 0; j < 3; j++)
-		{
 			dirvec[j] = r[0][j] - r[i][j];
-		}
 		// update particles 1 -> N		
 		for (int j = 0; j < 3; j++)
 		{

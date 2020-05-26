@@ -12,9 +12,7 @@ void B(double r[][3], double v[][3], double m[], double dt, int numParticles, do
 		for (int j = i+1; j < numParticles; j++)
         {
 			for (int k = 0; k < 3; k++)
-			{
 				dirvec[k] = r[i][k] - r[j][k];
-			}
 			for (int k = 0; k < 3; k++)
 			{        	
 				v[i][k] -= m[j] / (pow(pow(dirvec[0],2) + pow(dirvec[1], 2) + pow(dirvec[2],2), 3./2.)) * dirvec[k] * dt; 
